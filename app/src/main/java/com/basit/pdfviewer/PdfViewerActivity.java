@@ -1,5 +1,6 @@
 package com.basit.pdfviewer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -7,6 +8,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.basit.pdfviewer.databinding.ActivityPdfViewerBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -18,7 +24,10 @@ import java.net.URL;
 public class PdfViewerActivity extends AppCompatActivity {
 
     protected ActivityPdfViewerBinding binding;
-    String path ;
+
+
+    DatabaseReference databaseReference ;
+    String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +35,12 @@ public class PdfViewerActivity extends AppCompatActivity {
         binding = ActivityPdfViewerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         path = getIntent().getStringExtra("pdfurl");
         new PdfDownloadTask().execute(path);
-//
-//        displayPDF(path);
     }
+
+
 
 
     public class PdfDownloadTask extends AsyncTask<String,Void, InputStream> {

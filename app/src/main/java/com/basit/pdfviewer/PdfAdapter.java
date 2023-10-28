@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,20 +38,22 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PdfAdapter.MyHolder holder, int position) {
-        PdfClass pdfClass = pdfClassArrayList.get(position);
+
+PdfClass pdfClass1 = pdfClassArrayList.get(position);
 
 
+        holder.url.setText("Unit " +String.valueOf(pdfClass1.getUnit()));
 
-        holder.url.setText("Unit " +String.valueOf(pdfClass.getUnit()));
+        holder.name.setText(String.valueOf(pdfClass1.getPdfName()));
 
-        holder.name.setText(String.valueOf(pdfClass.getPdfName()));
+        Toast.makeText(context, ""+pdfClass1.getPdfUrl(), Toast.LENGTH_SHORT).show();
 
 
         holder.btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(pdfClass.getPdfUrl()));
+                intent.setData(Uri.parse(pdfClass1.getPdfUrl()));
                 context.startActivity(intent);
             }
         });
@@ -59,8 +62,8 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.MyHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context , PdfViewerActivity.class);
-                intent.putExtra("pdfurl", pdfClass.getPdfUrl());
-                Log.d("Url ", pdfClass.getPdfUrl());
+                intent.putExtra("pdfurl", pdfClass1.getPdfUrl());
+                Log.d("Url ", pdfClass1.getPdfUrl());
                 context.startActivity(intent);
             }
         });
